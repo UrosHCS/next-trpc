@@ -1,6 +1,6 @@
 import { savePatients, truncateDatabase } from '../patient/repository';
+import { patientsResponse } from '../patient/response';
 import { patientDataSchema } from '../patient/validator';
-import { patientsResponse } from '../responses/patients-response';
 import { publicProcedure, router } from '../trpc';
 import { TRPCError } from '@trpc/server';
 

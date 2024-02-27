@@ -12,14 +12,12 @@ function PatientsComponent() {
 
   // Initial Data Fetching and Storage
   useEffect(() => {
-    console.log('First refresh data mutation');
     refreshData.mutate();
   }, []);
 
   // Refresh data when mutation is successful
   useEffect(() => {
     if (refreshData.isSuccess) {
-      console.log('Refetching data from database');
       refetch();
     }
   }, [refreshData.isSuccess, refetch]);
