@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Patient {
+  id          String        @id @default(uuid())
+  client_id   String
+  birthday    DateTime
+  gender      String
+  ethnicity   String
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  Observation Observation[]
+}
+
+model Observation {
+  id                   String   @id @default(uuid())
+  date_testing         DateTime
+  creatine             Float
+  chloride             Float
+  fasting_glucose      Float
+  potassium            Float
+  sodium               Float
+  total_calcium        Float
+  total_protein        Float
+  creatine_unit        String
+  chloride_unit        String
+  fasting_glucose_unit String
+  potassium_unit       String
+  sodium_unit          String
+  total_calcium_unit   String
+  total_protein_unit   String
+  patient_id           String
+  patient              Patient  @relation(fields: [patient_id], references: [id])
+}
