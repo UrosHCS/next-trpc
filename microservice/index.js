@@ -21,7 +21,7 @@ server.listen(3210, () => {
   console.log('Server is running on port 3210');
 });
 
-async function getPatients(limit) {
+export async function getPatients(limit) {
   const promises = Array.from({ length: limit }, getDataForOnePatient);
 
   return Promise.all(promises).catch(err => {
