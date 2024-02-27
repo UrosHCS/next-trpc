@@ -13,7 +13,7 @@ generator client {
 model Patient {
   id          String        @id @default(uuid())
   client_id   String
-  birthday    DateTime
+  birthday    String
   gender      String
   ethnicity   String
   created_at  DateTime      @default(now())
@@ -22,8 +22,8 @@ model Patient {
 }
 
 model Observation {
-  id                   String   @id @default(uuid())
-  date_testing         DateTime
+  id                   String  @id @default(uuid())
+  date_testing         String
   creatine             Float
   chloride             Float
   fasting_glucose      Float
@@ -39,5 +39,5 @@ model Observation {
   total_calcium_unit   String
   total_protein_unit   String
   patient_id           String
-  patient              Patient  @relation(fields: [patient_id], references: [id])
+  patient              Patient @relation(fields: [patient_id], references: [id])
 }

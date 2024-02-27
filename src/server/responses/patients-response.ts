@@ -1,44 +1,46 @@
-type Observation = {
-  id: string;
-  date_testing: string;
-  creatine: number;
-  chloride: number;
-  fasting_glucose: number;
-  potassium: number;
-  sodium: number;
-  total_calcium: number;
-  total_protein: number;
-  creatine_unit: string;
-  chloride_unit: string;
-  fasting_glucose_unit: string;
-  potassium_unit: string;
-  sodium_unit: string;
-  total_calcium_unit: string;
-  total_protein_unit: string;
-};
+import { getPatients } from '../patient/repository';
+import { PatientResponse } from '@/types';
 
-// TypeScript type for Patient
-type Patient = {
-  id: string;
-  client_id: string;
-  birthday: string;
-  gender: string;
-  ethnicity: string;
-  created_at: string;
-  updated_at: string;
-  observations: Observation[];
-};
+export async function patientsResponse(): Promise<PatientResponse[]> {
+  const patients = await getPatients();
 
-export function patientsResponse(): Patient[] {
+  return patients.map<PatientResponse>(patient => {
+    return {
+      id: patient.id,
+      birthday: patient.birthday,
+      ethnicity: patient.ethnicity,
+      gender: patient.gender,
+      observations: patient.Observation.map(observation => {
+        return {
+          id: observation.id,
+          date_testing: observation.date_testing,
+          creatine: observation.creatine,
+          chloride: observation.chloride,
+          fasting_glucose: observation.fasting_glucose,
+          potassium: observation.potassium,
+          sodium: observation.sodium,
+          total_calcium: observation.total_calcium,
+          total_protein: observation.total_protein,
+          creatine_unit: observation.creatine_unit,
+          chloride_unit: observation.chloride_unit,
+          fasting_glucose_unit: observation.fasting_glucose_unit,
+          potassium_unit: observation.potassium_unit,
+          sodium_unit: observation.sodium_unit,
+          total_calcium_unit: observation.total_calcium_unit,
+          total_protein_unit: observation.total_protein_unit,
+        };
+      }),
+    };
+  });
+}
+
+export function patientsResponseMock(): PatientResponse[] {
   return [
     {
       id: '1',
-      client_id: 'client001',
       birthday: '1990-05-15T00:00:00Z',
       gender: 'Male',
       ethnicity: 'Caucasian',
-      created_at: '2024-02-27T12:00:00Z',
-      updated_at: '2024-02-27T12:00:00Z',
       observations: [
         {
           id: '101',
@@ -98,12 +100,9 @@ export function patientsResponse(): Patient[] {
     },
     {
       id: '2',
-      client_id: 'client002',
       birthday: '1985-08-21T00:00:00Z',
       gender: 'Female',
       ethnicity: 'Asian',
-      created_at: '2024-02-27T12:00:00Z',
-      updated_at: '2024-02-27T12:00:00Z',
       observations: [
         {
           id: '104',
@@ -163,12 +162,9 @@ export function patientsResponse(): Patient[] {
     },
     {
       id: '3',
-      client_id: 'client003',
       birthday: '1978-12-10T00:00:00Z',
       gender: 'Non-Binary',
       ethnicity: 'African American',
-      created_at: '2024-02-27T12:00:00Z',
-      updated_at: '2024-02-27T12:00:00Z',
       observations: [
         {
           id: '107',

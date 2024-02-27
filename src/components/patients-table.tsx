@@ -34,12 +34,14 @@ function PatientRows({ patients }: Props) {
         patient.observations.map((observation, index) => {
           return (
             <TableRow key={observation.id}>
-              {index === 0 && (
-                <TableCell className="flex gap-2 font-medium">
-                  <div>{patient.birthday}</div>
-                  <div>{patient.ethnicity}</div>
-                  <div>{patient.gender}</div>
+              {index === 0 ? (
+                <TableCell className="font-medium">
+                  <div>DoB: {patient.birthday}</div>
+                  <div>Ethnicity: {patient.ethnicity}</div>
+                  <div>Gender: {patient.gender}</div>
                 </TableCell>
+              ) : (
+                <TableCell />
               )}
               <TableCell>
                 {observation.creatine} {observation.creatine_unit}

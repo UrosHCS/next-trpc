@@ -1,20 +1,40 @@
+import { savePatients, truncateDatabase } from '../patient/repository';
+import { patientDataSchema } from '../patient/validator';
 import { patientsResponse } from '../responses/patients-response';
 import { publicProcedure, router } from '../trpc';
-import { prisma } from '@/server/prisma';
-import type { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
 
 export const patientRouter = router({
-  list: publicProcedure.query(async () => {
+  refresh: publicProcedure.mutation(async () => {
     // get data from microservice
+    const response = await fetch('http://localhost:3210?10');
 
-    // transform data
+    if (!response.ok) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Failed to fetch data from source',
+      });
+    }
 
-    // save to database
+    const data = await response.json();
 
-    // return transformed data
+    // validate data
+    const validationResult = patientDataSchema.safeParse(data);
 
+    if (!validationResult.success) {
+      console.error(validationResult.error.errors);
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Invalid data from source',
+      });
+    }
+
+    await truncateDatabase();
+
+    await savePatients(validationResult.data);
+  }),
+
+  list: publicProcedure.query(async () => {
     return patientsResponse();
   }),
 });

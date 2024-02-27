@@ -19,11 +19,8 @@ export type ObservationResponse = {
 
 export type PatientResponse = {
   id: string;
-  client_id: string;
   birthday: string;
   gender: string;
   ethnicity: string;
-  created_at: string;
-  updated_at: string;
   observations: ObservationResponse[];
 };
