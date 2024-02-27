@@ -16,7 +16,7 @@ function getBaseUrl() {
   }
 
   // assume localhost
-  return `http://127.0.0.1:${process.env.PORT ?? 3000}`;
+  return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 
 /**
@@ -55,7 +55,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
             process.env.NODE_ENV === 'development' || (opts.direction === 'down' && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
+          url: `${getBaseUrl()}/api`,
           /**
            * Set custom request headers on every request from tRPC
            * @link https://trpc.io/docs/v11/ssr
